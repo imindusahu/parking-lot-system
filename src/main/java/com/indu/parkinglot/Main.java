@@ -1,8 +1,7 @@
 package com.indu.parkinglot;
 
-import com.indu.parkinglot.model.Bike;
-import com.indu.parkinglot.model.Car;
-import com.indu.parkinglot.model.Truck;
+import com.indu.parkinglot.model.Vehicle;
+import com.indu.parkinglot.factory.VehicleFactory;
 import com.indu.parkinglot.service.ParkingLot;
 import com.indu.parkinglot.model.Ticket;
 
@@ -10,9 +9,11 @@ public class Main
 {
     public static void main( String[] args ) throws Exception
     {
-        Car car = new Car("UP32AB1234");
-        Bike bike = new Bike("UP32XY5678");
-        Truck truck = new Truck("UP78PQ9999");
+        VehicleFactory factory = new VehicleFactory();
+
+        Vehicle car = factory.createVehicle("CAR", "UP32AB1234");
+        Vehicle bike = factory.createVehicle("BIKE", "UP32XY5678");
+        Vehicle truck = factory.createVehicle("TRUCK", "UP78PQ9999");
 
         ParkingLot parkingLot = new ParkingLot(5);
 
