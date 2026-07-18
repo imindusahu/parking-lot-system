@@ -12,7 +12,7 @@ public class Ticket {
         this.ticketId = ticketId;
         this.vehicle = vehicle;
         this.parkingSpot = parkingSpot;
-        this.entryTime = LocalDateTime.now();
+        this.entryTime = LocalDateTime.now().minusHours(3);
     }
 
     public String getTicketId() {

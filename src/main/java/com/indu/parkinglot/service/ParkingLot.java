@@ -12,6 +12,7 @@ import com.indu.parkinglot.model.Vehicle;
 public class ParkingLot {
 
     private List<ParkingSpot> parkingSpots;
+    private int ticketCounter = 1;
 
     public ParkingLot(int totalSpots) {
         parkingSpots = new ArrayList<>();
@@ -27,8 +28,15 @@ public class ParkingLot {
 
         Duration duration = Duration.between(entryTime, exitTime);
 
-        long hours = duration.toHours();
+        long minutes = duration.toMinutes();
+        long hours = (minutes + 59) / 60;
         double fee = hours * 20;
+
+        System.out.println("Entry Time : " + entryTime);
+        System.out.println("Exit Time  : " + exitTime);
+        System.out.println("Minutes    : " + minutes);
+        System.out.println("Hours.     : " + hours);
+        System.out.println("Fee        : " + fee);
 
         return fee;
     }
@@ -47,7 +55,11 @@ public class ParkingLot {
         for(ParkingSpot spot : parkingSpots) {
             if(!spot.isOccupied()) {
                 spot.parkVehicle(vehicle);
-                Ticket ticket = new Ticket("T1", vehicle, spot);
+
+                String ticketId = "T" + ticketCounter;
+                ticketCounter++;
+
+                Ticket ticket = new Ticket(ticketId, vehicle, spot);
                 return ticket;
             }
         }
@@ -67,7 +79,11 @@ public class ParkingLot {
 
         spot.removeVehicle();
 
-        System.out.println("Parking Fee: Rs." + fee);
+        System.out.println("Entry Time : " + entryTime);
+        System.out.println("Exit Time  : " + exitTime);
+        System.out.println("Minutes    : " + minutes);
+        System.out.println("Hours.     : " + hours);
+        System.out.println("Fee        : " + fee);
 
     }
 }

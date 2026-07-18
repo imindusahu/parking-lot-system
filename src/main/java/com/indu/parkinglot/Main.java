@@ -8,7 +8,7 @@ import com.indu.parkinglot.model.Ticket;
 
 public class Main 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws Exception
     {
         Car car = new Car("UP32AB1234");
         Bike bike = new Bike("UP32XY5678");
@@ -23,6 +23,8 @@ public class Main
         Ticket bikeTicket = parkingLot.parkVehicle(bike);
         Ticket truckTicket = parkingLot.parkVehicle(truck);
 
+        //Wait 65 seconds
+        Thread.sleep(65000);
 
         //Print ticket details
         System.out.println("Car parked at Spot: " + carTicket.getParkingSpot().getSpotNumber());
