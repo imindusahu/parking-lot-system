@@ -14,10 +14,14 @@ import com.indu.parkinglot.strategy.HourlyPricingStrategy;
 public class ParkingLot {
 
     private List<ParkingSpot> parkingSpots;
+
     private int ticketCounter = 1;
+
     private PricingStrategy pricingStrategy;
 
-    public ParkingLot(int totalSpots) {
+    private static ParkingLot instance;
+
+    private ParkingLot(int totalSpots) {
         parkingSpots = new ArrayList<>();
         pricingStrategy = new HourlyPricingStrategy();
 
@@ -26,6 +30,13 @@ public class ParkingLot {
         }
     }
 
+    public static ParkingLot getInstance(int totalSpots) {
+        if(instance == null) {
+            instance = new ParkingLot(totalSpots);
+        }
+
+        return instance;
+    }
 
     private ParkingSpot findParkingSpot(Vehicle vehicle) {
         for(ParkingSpot spot : parkingSpots) {

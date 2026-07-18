@@ -15,8 +15,8 @@ public class Main
         Vehicle bike = factory.createVehicle("BIKE", "UP32XY5678");
         Vehicle truck = factory.createVehicle("TRUCK", "UP78PQ9999");
 
-        ParkingLot parkingLot = new ParkingLot(5);
-
+        ParkingLot parkingLot = ParkingLot.getInstance(5);
+       
         System.out.println("====== Parking Lot ======");
 
         //Park vehicles
