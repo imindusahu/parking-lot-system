@@ -8,14 +8,18 @@ import java.time.Duration;
 import com.indu.parkinglot.model.ParkingSpot;
 import com.indu.parkinglot.model.Ticket;
 import com.indu.parkinglot.model.Vehicle;
+import com.indu.parkinglot.strategy.PricingStrategy;
+import com.indu.parkinglot.strategy.HourlyPricingStrategy;
 
 public class ParkingLot {
 
     private List<ParkingSpot> parkingSpots;
     private int ticketCounter = 1;
+    private PricingStrategy pricingStrategy;
 
     public ParkingLot(int totalSpots) {
         parkingSpots = new ArrayList<>();
+        pricingStrategy = new HourlyPricingStrategy();
 
         for(int i = 1; i <= totalSpots; i++) {
             parkingSpots.add(new ParkingSpot(i));
@@ -57,7 +61,7 @@ public class ParkingLot {
         long minutes = duration.toMinutes();
         long hours = (minutes + 59) / 60;
 
-        return hours * 20;
+        return pricingStrategy.calculateFee(hours);
     }
 
     public void unparkVehicle(Ticket ticket) {
