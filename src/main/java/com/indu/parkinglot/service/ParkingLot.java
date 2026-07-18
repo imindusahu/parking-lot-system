@@ -10,6 +10,8 @@ import com.indu.parkinglot.model.Ticket;
 import com.indu.parkinglot.model.Vehicle;
 import com.indu.parkinglot.strategy.PricingStrategy;
 import com.indu.parkinglot.strategy.HourlyPricingStrategy;
+import com.indu.parkinglot.observer.DisplayBoard;
+import com.indu.parkinglot.observer.ParkingLotObserver;
 
 public class ParkingLot {
 
@@ -21,12 +23,30 @@ public class ParkingLot {
 
     private static ParkingLot instance;
 
+    private List<ParkingLotObserver> observers = new ArrayList<>();
+
     private ParkingLot(int totalSpots) {
         parkingSpots = new ArrayList<>();
         pricingStrategy = new HourlyPricingStrategy();
 
         for(int i = 1; i <= totalSpots; i++) {
             parkingSpots.add(new ParkingSpot(i));
+        }
+
+        observers.add(new DisplayBoard());
+    }
+
+    private void notifyObservers() {
+        int availableSpots = 0;
+
+        for(ParkingSpot spot : parkingSpots) {
+            if(!spot.isOccupied()) {
+                availableSpots++;
+            }
+        }
+
+        for(ParkingLotObserver observer : observers) {
+            observer.update(availableSpots);
         }
     }
 
@@ -52,6 +72,8 @@ public class ParkingLot {
         for(ParkingSpot spot : parkingSpots) {
             if(!spot.isOccupied()) {
                 spot.parkVehicle(vehicle);
+
+                notifyObservers();
 
                 String ticketId = "T" + ticketCounter;
                 ticketCounter++;
@@ -97,9 +119,10 @@ public class ParkingLot {
 
         System.out.println("Entry Time        : " + entryTime);
         System.out.println("Exit Time         : " + exitTime);
-        System.out.println("Minutes           : " + minutes);
-        System.out.println("Hours.            : " + hours);
         System.out.println("Total Parking Fee : Rs." + fee);
+        System.out.println();
+
+        notifyObservers();
 
     }
 }

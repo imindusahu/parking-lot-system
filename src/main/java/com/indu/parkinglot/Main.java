@@ -21,25 +21,32 @@ public class Main
 
         //Park vehicles
         Ticket carTicket = parkingLot.parkVehicle(car);
+        System.out.println("Car parked at Spot: " + carTicket.getParkingSpot().getSpotNumber());
+        System.out.println("Car Ticket ID: " + carTicket.getTicketId());
+        System.out.println();
+
         Ticket bikeTicket = parkingLot.parkVehicle(bike);
+        System.out.println("Bike parked at Spot: " + bikeTicket.getParkingSpot().getSpotNumber());
+        System.out.println("Bike Ticket ID: " + bikeTicket.getTicketId());
+        System.out.println();
+
         Ticket truckTicket = parkingLot.parkVehicle(truck);
+        System.out.println("Truck parked at Spot: " + truckTicket.getParkingSpot().getSpotNumber());
+        System.out.println("Truck Ticket ID: " + truckTicket.getTicketId());
+        System.out.println();
+
 
         //Wait 65 seconds
         Thread.sleep(65000);
 
-        //Print ticket details
-        System.out.println("Car parked at Spot: " + carTicket.getParkingSpot().getSpotNumber());
-        System.out.println("Car Ticket ID: " + carTicket.getTicketId());
+
+        //Unpark vehicle
         parkingLot.unparkVehicle(carTicket);
         System.out.println();
 
-        System.out.println("Bike parked at Spot: " + bikeTicket.getParkingSpot().getSpotNumber());
-        System.out.println("Bike Ticket ID: " + bikeTicket.getTicketId());
         parkingLot.unparkVehicle(bikeTicket);
         System.out.println();
-
-        System.out.println("Truck parked at Spot: " + truckTicket.getParkingSpot().getSpotNumber());
-        System.out.println("Truck Ticket ID: " + truckTicket.getTicketId());
+        
         parkingLot.unparkVehicle(truckTicket);
         System.out.println();
 
