@@ -48,6 +48,18 @@ public class ParkingLot {
         return null;
     }
 
+    private double calculateFee(Ticket ticket) {
+        LocalDateTime entryTime = ticket.getEntryTime();
+        LocalDateTime exitTime = LocalDateTime.now();
+
+        Duration duration = Duration.between(entryTime, exitTime);
+
+        long minutes = duration.toMinutes();
+        long hours = (minutes + 59) / 60;
+
+        return hours * 20;
+    }
+
     public void unparkVehicle(Ticket ticket) {
         Vehicle vehicle = ticket.getVehicle();
         ParkingSpot spot = findParkingSpot(vehicle);
@@ -59,7 +71,7 @@ public class ParkingLot {
 
         long minutes = duration.toMinutes();
         long hours = (minutes + 59) / 60;
-        double fee = hours * 20;
+        double fee = calculateFee(ticket);
 
         if(spot == null) {
             System.out.println("Vehicle not found!");
