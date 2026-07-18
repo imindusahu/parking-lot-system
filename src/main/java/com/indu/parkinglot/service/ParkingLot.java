@@ -22,24 +22,6 @@ public class ParkingLot {
         }
     }
 
-    private double calculateFee(Ticket ticket) {
-        LocalDateTime entryTime = ticket.getEntryTime();
-        LocalDateTime exitTime = LocalDateTime.now();
-
-        Duration duration = Duration.between(entryTime, exitTime);
-
-        long minutes = duration.toMinutes();
-        long hours = (minutes + 59) / 60;
-        double fee = hours * 20;
-
-        System.out.println("Entry Time : " + entryTime);
-        System.out.println("Exit Time  : " + exitTime);
-        System.out.println("Minutes    : " + minutes);
-        System.out.println("Hours.     : " + hours);
-        System.out.println("Fee        : " + fee);
-
-        return fee;
-    }
 
     private ParkingSpot findParkingSpot(Vehicle vehicle) {
         for(ParkingSpot spot : parkingSpots) {
@@ -70,20 +52,27 @@ public class ParkingLot {
         Vehicle vehicle = ticket.getVehicle();
         ParkingSpot spot = findParkingSpot(vehicle);
 
+        LocalDateTime entryTime = ticket.getEntryTime();
+        LocalDateTime exitTime = LocalDateTime.now();
+
+        Duration duration = Duration.between(entryTime, exitTime);
+
+        long minutes = duration.toMinutes();
+        long hours = (minutes + 59) / 60;
+        double fee = hours * 20;
+
         if(spot == null) {
             System.out.println("Vehicle not found!");
             return;
         }
 
-        double fee = calculateFee(ticket);
-
         spot.removeVehicle();
 
-        System.out.println("Entry Time : " + entryTime);
-        System.out.println("Exit Time  : " + exitTime);
-        System.out.println("Minutes    : " + minutes);
-        System.out.println("Hours.     : " + hours);
-        System.out.println("Fee        : " + fee);
+        System.out.println("Entry Time        : " + entryTime);
+        System.out.println("Exit Time         : " + exitTime);
+        System.out.println("Minutes           : " + minutes);
+        System.out.println("Hours.            : " + hours);
+        System.out.println("Total Parking Fee : Rs." + fee);
 
     }
 }
