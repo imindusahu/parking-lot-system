@@ -4,6 +4,7 @@ import com.indu.parkinglot.model.Bike;
 import com.indu.parkinglot.model.Car;
 import com.indu.parkinglot.model.Truck;
 import com.indu.parkinglot.service.ParkingLot;
+import com.indu.parkinglot.model.Ticket;
 
 public class Main 
 {
@@ -12,20 +13,35 @@ public class Main
         Car car = new Car("UP32AB1234");
         Bike bike = new Bike("UP32XY5678");
         Truck truck = new Truck("UP78PQ9999");
+
         ParkingLot parkingLot = new ParkingLot(5);
 
-        System.out.println( "===== Vehicles =====");
+        System.out.println("====== Parking Lot ======");
 
-        System.out.println(car.getVehicleNumber());
-        System.out.println(car.getVehicleType());
+        //Park vehicles
+        Ticket carTicket = parkingLot.parkVehicle(car);
+        Ticket bikeTicket = parkingLot.parkVehicle(bike);
+        Ticket truckTicket = parkingLot.parkVehicle(truck);
+
+
+        //Print ticket details
+        System.out.println("Car parked at Spot: " + carTicket.getParkingSpot().getSpotNumber());
+        System.out.println("Car Ticket ID: " + carTicket.getTicketId());
         System.out.println();
 
-        System.out.println(bike.getVehicleNumber());
-        System.out.println(bike.getVehicleType());
+        System.out.println("Bike parked at Spot: " + bikeTicket.getParkingSpot().getSpotNumber());
+        System.out.println("Bike Ticket ID: " + bikeTicket.getTicketId());
         System.out.println();
 
-        System.out.println(truck.getVehicleNumber());
-        System.out.println(truck.getVehicleType());
+        System.out.println("Truck parked at Spot: " + truckTicket.getParkingSpot().getSpotNumber());
+        System.out.println("Truck Ticket ID: " + truckTicket.getTicketId());
+        System.out.println();
+
+
+        //Unpark vehicles
+        parkingLot.unparkVehicle(carTicket);
+        parkingLot.unparkVehicle(bikeTicket);
+        parkingLot.unparkVehicle(truckTicket);
     
     }
 }
