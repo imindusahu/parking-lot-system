@@ -12,6 +12,8 @@ import com.indu.parkinglot.strategy.PricingStrategy;
 import com.indu.parkinglot.strategy.HourlyPricingStrategy;
 import com.indu.parkinglot.observer.DisplayBoard;
 import com.indu.parkinglot.observer.ParkingLotObserver;
+import com.indu.parkinglot.strategy.spot.SpotSelectionStrategy;
+import com.indu.parkinglot.strategy.spot.FirstAvailableSpotStrategy;
 
 public class ParkingLot {
 
@@ -25,9 +27,12 @@ public class ParkingLot {
 
     private List<ParkingLotObserver> observers = new ArrayList<>();
 
+    private SpotSelectionStrategy spotStrategy;
+
     private ParkingLot(int totalSpots) {
         parkingSpots = new ArrayList<>();
         pricingStrategy = new HourlyPricingStrategy();
+        spotStrategy = new FirstAvailableSpotStrategy();
 
         for(int i = 1; i <= totalSpots; i++) {
             parkingSpots.add(new ParkingSpot(i));
@@ -69,20 +74,19 @@ public class ParkingLot {
     }
 
     public Ticket parkVehicle(Vehicle vehicle) {
-        for(ParkingSpot spot : parkingSpots) {
-            if(!spot.isOccupied()) {
-                spot.parkVehicle(vehicle);
+        ParkingSpot spot = spotStrategy.selectSpot(parkingSpots, vehicle);
 
-                notifyObservers();
-
-                String ticketId = "T" + ticketCounter;
-                ticketCounter++;
-
-                Ticket ticket = new Ticket(ticketId, vehicle, spot);
-                return ticket;
-            }
+        if(spot == null) {
+            return null;
         }
-        return null;
+
+        spot.parkVehicle(vehicle);
+
+        notifyObservers();
+
+        String ticketId = "T" + ticketCounter++;
+
+        return new Ticket(ticketId, vehicle, spot);
     }
 
     private double calculateFee(Ticket ticket) {
