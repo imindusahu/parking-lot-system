@@ -4,6 +4,8 @@ import com.indu.parkinglot.model.Vehicle;
 import com.indu.parkinglot.factory.VehicleFactory;
 import com.indu.parkinglot.service.ParkingLot;
 import com.indu.parkinglot.model.Ticket;
+import com.indu.parkinglot.command.ParkVehicleCommand;
+import com.indu.parkinglot.command.UnparkVehicleCommand;
 
 public class Main 
 {
@@ -20,17 +22,23 @@ public class Main
         System.out.println("====== Parking Lot ======");
 
         //Park vehicles
-        Ticket carTicket = parkingLot.parkVehicle(car);
+        ParkVehicleCommand parkCar = new ParkVehicleCommand(parkingLot, car);
+        parkCar.execute();
+        Ticket carTicket = parkCar.getTicket();
         System.out.println("Car parked at Spot: " + carTicket.getParkingSpot().getSpotNumber());
         System.out.println("Car Ticket ID: " + carTicket.getTicketId());
         System.out.println();
 
-        Ticket bikeTicket = parkingLot.parkVehicle(bike);
+        ParkVehicleCommand parkBike = new ParkVehicleCommand(parkingLot, bike);
+        parkBike.execute();
+        Ticket bikeTicket = parkBike.getTicket();
         System.out.println("Bike parked at Spot: " + bikeTicket.getParkingSpot().getSpotNumber());
         System.out.println("Bike Ticket ID: " + bikeTicket.getTicketId());
         System.out.println();
 
-        Ticket truckTicket = parkingLot.parkVehicle(truck);
+        ParkVehicleCommand parkTruck = new ParkVehicleCommand(parkingLot, truck);
+        parkTruck.execute();
+        Ticket truckTicket = parkTruck.getTicket();
         System.out.println("Truck parked at Spot: " + truckTicket.getParkingSpot().getSpotNumber());
         System.out.println("Truck Ticket ID: " + truckTicket.getTicketId());
         System.out.println();
@@ -41,13 +49,16 @@ public class Main
 
 
         //Unpark vehicle
-        parkingLot.unparkVehicle(carTicket);
+        UnparkVehicleCommand unparkCar = new UnparkVehicleCommand(parkingLot, carTicket);
+        unparkCar.execute();
         System.out.println();
 
-        parkingLot.unparkVehicle(bikeTicket);
+        UnparkVehicleCommand unparkBike = new UnparkVehicleCommand(parkingLot, bikeTicket);
+        unparkBike.execute();
         System.out.println();
         
-        parkingLot.unparkVehicle(truckTicket);
+        UnparkVehicleCommand unparkTruck = new UnparkVehicleCommand(parkingLot, truckTicket);
+        unparkTruck.execute();
         System.out.println();
 
     
