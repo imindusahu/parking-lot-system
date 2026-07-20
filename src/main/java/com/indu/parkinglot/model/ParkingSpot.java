@@ -3,11 +3,13 @@ package com.indu.parkinglot.model;
 public class ParkingSpot {
     
     private int spotNumber;
+    private SpotType spotType;
     private Vehicle parkedVehicle;
     private boolean occupied;
 
-    public ParkingSpot(int spotNumber) {
+    public ParkingSpot(int spotNumber, SpotType spotType) {
         this.spotNumber = spotNumber;
+        this.spotType = spotType;
         this.parkedVehicle = null;
         this.occupied = false;
     }
@@ -30,6 +32,10 @@ public class ParkingSpot {
 
     public int getSpotNumber() {
         return spotNumber;
+    }
+
+    public SpotType getSpotType() {
+        return spotType;
     }
 
     public Vehicle getParkedVehicle() {

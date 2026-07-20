@@ -14,6 +14,7 @@ import com.indu.parkinglot.observer.DisplayBoard;
 import com.indu.parkinglot.observer.ParkingLotObserver;
 import com.indu.parkinglot.strategy.spot.SpotSelectionStrategy;
 import com.indu.parkinglot.strategy.spot.FirstAvailableSpotStrategy;
+import com.indu.parkinglot.model.SpotType;
 
 public class ParkingLot {
 
@@ -35,7 +36,13 @@ public class ParkingLot {
         spotStrategy = new FirstAvailableSpotStrategy();
 
         for(int i = 1; i <= totalSpots; i++) {
-            parkingSpots.add(new ParkingSpot(i));
+            if(i == 1 || i == 2) {
+                parkingSpots.add(new ParkingSpot(i, SpotType.BIKE));
+            }else if( i == 3 || i == 4) {
+                parkingSpots.add(new ParkingSpot(i, SpotType.CAR));
+            }else {
+                parkingSpots.add(new ParkingSpot(i, SpotType.TRUCK));
+            }
         }
 
         observers.add(new DisplayBoard());

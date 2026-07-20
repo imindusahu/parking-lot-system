@@ -11,7 +11,10 @@ public class FirstAvailableSpotStrategy implements SpotSelectionStrategy {
     public ParkingSpot selectSpot(List<ParkingSpot> parkingSpots, Vehicle vehicle) {
 
         for(ParkingSpot spot : parkingSpots) {
-            if(!spot.isOccupied()) {
+            
+            boolean typeMatches = spot.getSpotType().name().equals(vehicle.getVehicleType().name());
+
+            if(!spot.isOccupied() && typeMatches) {
                 return spot;
             }
         }
