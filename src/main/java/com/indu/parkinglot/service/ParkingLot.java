@@ -15,10 +15,11 @@ import com.indu.parkinglot.observer.ParkingLotObserver;
 import com.indu.parkinglot.strategy.spot.SpotSelectionStrategy;
 import com.indu.parkinglot.strategy.spot.FirstAvailableSpotStrategy;
 import com.indu.parkinglot.model.SpotType;
+import com.indu.parkinglot.model.ParkingFloor;
 
 public class ParkingLot {
 
-    private List<ParkingSpot> parkingSpots;
+    private List<ParkingFloor> parkingFloors;
 
     private int ticketCounter = 1;
 
@@ -31,19 +32,24 @@ public class ParkingLot {
     private SpotSelectionStrategy spotStrategy;
 
     private ParkingLot(int totalSpots) {
-        parkingSpots = new ArrayList<>();
+        parkingFloors = new ArrayList<>();
         pricingStrategy = new HourlyPricingStrategy();
         spotStrategy = new FirstAvailableSpotStrategy();
 
-        for(int i = 1; i <= totalSpots; i++) {
-            if(i == 1 || i == 2) {
-                parkingSpots.add(new ParkingSpot(i, SpotType.BIKE));
-            }else if( i == 3 || i == 4) {
-                parkingSpots.add(new ParkingSpot(i, SpotType.CAR));
-            }else {
-                parkingSpots.add(new ParkingSpot(i, SpotType.TRUCK));
-            }
-        }
+        ParkingFloor floor1 = new ParkingFloor(1);
+        ParkingFloor floor2 = new ParkingFloor(2);
+
+        //Add spots to Floor1
+        floor1.addSpot(new ParkingSpot(1, SpotType.BIKE));
+        floor1.addSpot(new ParkingSpot(2, SpotType.BIKE));
+        floor1.addSpot(new ParkingSpot(3, SpotType.CAR));
+
+        //Add spots to Floor2
+        floor2.addSpot(new ParkingSpot(4, SpotType.CAR));
+        floor2.addSpot(new ParkingSpot(5, SpotType.TRUCK));
+
+        parkingFloors.add(floor1);
+        parkingFloors.add(floor2);
 
         observers.add(new DisplayBoard());
     }
@@ -51,9 +57,11 @@ public class ParkingLot {
     private void notifyObservers() {
         int availableSpots = 0;
 
-        for(ParkingSpot spot : parkingSpots) {
-            if(!spot.isOccupied()) {
-                availableSpots++;
+        for(ParkingFloor floor : parkingFloors) {
+            for(ParkingSpot spot : floor.getParkingSpots()) {
+                    if(!spot.isOccupied()) {
+                    availableSpots++;
+                }
             }
         }
 
@@ -71,17 +79,18 @@ public class ParkingLot {
     }
 
     private ParkingSpot findParkingSpot(Vehicle vehicle) {
-        for(ParkingSpot spot : parkingSpots) {
-           if(spot.getParkedVehicle() != null) {
-                if (spot.getParkedVehicle() == vehicle) 
-                    return spot;
+        for(ParkingFloor floor : parkingFloors) {
+            for(ParkingSpot spot : floor.getParkingSpots()) {
+                if(spot.getParkedVehicle() != null && spot.getParkedVehicle() == vehicle) {
+                        return spot;
+                }
             }
         }
         return null;
     }
 
     public Ticket parkVehicle(Vehicle vehicle) {
-        ParkingSpot spot = spotStrategy.selectSpot(parkingSpots, vehicle);
+        ParkingSpot spot = spotStrategy.selectSpot(parkingFloors, vehicle);
 
         if(spot == null) {
             return null;
