@@ -16,6 +16,8 @@ import com.indu.parkinglot.strategy.spot.SpotSelectionStrategy;
 import com.indu.parkinglot.strategy.spot.FirstAvailableSpotStrategy;
 import com.indu.parkinglot.model.SpotType;
 import com.indu.parkinglot.model.ParkingFloor;
+import com.indu.parkinglot.payment.PaymentStrategy;
+import com.indu.parkinglot.payment.CashPayment;
 
 public class ParkingLot {
 
@@ -24,6 +26,8 @@ public class ParkingLot {
     private int ticketCounter = 1;
 
     private PricingStrategy pricingStrategy;
+
+    private PaymentStrategy paymentStrategy;
 
     private static ParkingLot instance;
 
@@ -34,6 +38,7 @@ public class ParkingLot {
     private ParkingLot(int totalSpots) {
         parkingFloors = new ArrayList<>();
         pricingStrategy = new HourlyPricingStrategy();
+        paymentStrategy = new CashPayment();
         spotStrategy = new FirstAvailableSpotStrategy();
 
         ParkingFloor floor1 = new ParkingFloor(1);
@@ -80,6 +85,10 @@ public class ParkingLot {
 
     public void setSpotSelectionStrategy(SpotSelectionStrategy strategy) {
         this.spotStrategy = strategy;
+    }
+
+    public void setPaymentStrategy(PaymentStrategy strategy) {
+        this.paymentStrategy = strategy;
     }
 
     private ParkingSpot findParkingSpot(Vehicle vehicle) {
@@ -140,6 +149,8 @@ public class ParkingLot {
         }
 
         spot.removeVehicle();
+
+        paymentStrategy.pay(fee);
 
         System.out.println("Entry Time        : " + entryTime);
         System.out.println("Exit Time         : " + exitTime);
