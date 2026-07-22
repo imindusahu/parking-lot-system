@@ -78,6 +78,10 @@ public class ParkingLot {
         return instance;
     }
 
+    public void setSpotSelectionStrategy(SpotSelectionStrategy strategy) {
+        this.spotStrategy = strategy;
+    }
+
     private ParkingSpot findParkingSpot(Vehicle vehicle) {
         for(ParkingFloor floor : parkingFloors) {
             for(ParkingSpot spot : floor.getParkingSpots()) {

@@ -6,6 +6,7 @@ import com.indu.parkinglot.service.ParkingLot;
 import com.indu.parkinglot.model.Ticket;
 import com.indu.parkinglot.command.ParkVehicleCommand;
 import com.indu.parkinglot.command.UnparkVehicleCommand;
+import com.indu.parkinglot.strategy.spot.NearestSpotStrategy;
 
 public class Main 
 {
@@ -18,6 +19,7 @@ public class Main
         Vehicle truck = factory.createVehicle("TRUCK", "UP78PQ9999");
 
         ParkingLot parkingLot = ParkingLot.getInstance(5);
+        parkingLot.setSpotSelectionStrategy(new NearestSpotStrategy());
        
         System.out.println("====== Parking Lot ======");
 
