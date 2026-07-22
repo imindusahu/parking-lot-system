@@ -18,12 +18,15 @@ import com.indu.parkinglot.model.SpotType;
 import com.indu.parkinglot.model.ParkingFloor;
 import com.indu.parkinglot.payment.PaymentStrategy;
 import com.indu.parkinglot.payment.CashPayment;
+import com.indu.parkinglot.model.PaymentReceipt;
+import com.indu.parkinglot.payment.PaymentStatus;
 
 public class ParkingLot {
 
     private List<ParkingFloor> parkingFloors;
 
     private int ticketCounter = 1;
+    private int receiptCounter = 1;
 
     private PricingStrategy pricingStrategy;
 
@@ -142,6 +145,7 @@ public class ParkingLot {
         long minutes = duration.toMinutes();
         long hours = (minutes + 59) / 60;
         double fee = calculateFee(ticket);
+        PaymentStatus status = paymentStrategy.pay(fee);
 
         if(spot == null) {
             System.out.println("Vehicle not found!");
@@ -150,12 +154,27 @@ public class ParkingLot {
 
         spot.removeVehicle();
 
-        paymentStrategy.pay(fee);
 
-        System.out.println("Entry Time        : " + entryTime);
-        System.out.println("Exit Time         : " + exitTime);
-        System.out.println("Total Parking Fee : Rs." + fee);
-        System.out.println();
+        PaymentReceipt receipt = new PaymentReceipt("R" + receiptCounter++,
+            ticket,
+            vehicle,
+            fee, 
+            paymentStrategy.getClass().getSimpleName(),
+            status,
+            LocalDateTime.now()
+        );
+
+        System.out.println("=========== PAYMENT RECEIPT ===========");
+        System.out.println("Receipt ID        : " + receipt.getReceiptId());
+        System.out.println("Ticket ID         : " + receipt.getTicket().getTicketId());
+        System.out.println("Vehicle Number    : " + receipt.getVehicle().getVehicleNumber());
+        System.out.println("Vehicle Type      : " + receipt.getVehicle().getVehicleType());
+        System.out.println("Spot Number       : " + receipt.getTicket().getParkingSpot().getSpotNumber());
+        System.out.println("Amount            : Rs." + receipt.getAmount());
+        System.out.println("Payment Method    : UPI");
+        System.out.println("Status            : " + receipt.getPaymentStatus());
+        System.out.println("Payment Time      : " + receipt.getPaymentTime());
+        System.out.println("=======================================");
 
         notifyObservers();
 
