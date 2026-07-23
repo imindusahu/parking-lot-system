@@ -1,5 +1,11 @@
 # 🚗 Parking Lot System
 
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Maven](https://img.shields.io/badge/Maven-3.9-blue)
+![OOP](https://img.shields.io/badge/OOP-Implemented-success)
+![Design Patterns](https://img.shields.io/badge/Design%20Patterns-5-green)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
 A Java-based Parking Lot System built using **Object-Oriented Programming (OOP)**, **SOLID Principles**, and multiple **Design Patterns**.
 
 This project simulates a real-world parking lot capable of parking different vehicle types, generating parking tickets, calculating parking fees, processing payments, and updating the display board automatically.
@@ -201,6 +207,41 @@ ParkingLot --> ParkingLotObserver
 
 ---
 
+# Parking Workflow
+
+```text
+Vehicle Arrives
+      │
+      ▼
+Vehicle Factory
+      │
+      ▼
+Spot Selection Strategy
+      │
+      ▼
+Parking Spot Assigned
+      │
+      ▼
+Ticket Generated
+      │
+      ▼
+Vehicle Parked
+      │
+      ▼
+Vehicle Exit
+      │
+      ▼
+Fee Calculation Strategy
+      │
+      ▼
+Payment Strategy
+      │
+      ▼
+Payment Receipt Generated
+```
+
+---
+
 # Payment Module
 
 Supported payment methods:
@@ -238,6 +279,20 @@ Each successful payment generates a detailed receipt containing:
 
 ---
 
+# Key Learnings
+
+During this project, I gained practical experience in:
+
+- Designing scalable object-oriented systems
+- Applying SOLID principles in real projects
+- Implementing multiple GoF Design Patterns
+- Decoupling components using interfaces
+- Managing project structure using Maven
+- Writing clean and maintainable Java code
+- Maintaining meaningful Git commit history
+
+---
+
 # Sample Output
 
 ```text
@@ -264,14 +319,16 @@ Status            : SUCCESS
 
 # Future Improvements
 
-- Multi-floor Parking Management
-- Reservation System
+- EV Charging Station Support
+- Online Parking Slot Reservation
+- Dynamic Pricing based on Peak Hours
 - Admin Dashboard
 - REST API using Spring Boot
-- Database Integration (MySQL/PostgreSQL)
+- MySQL/PostgreSQL Integration
 - JWT Authentication
-- Unit Testing with JUnit
-- Docker Support
+- Email/SMS Notifications
+- Docker Deployment
+- Unit & Integration Testing
 
 ---
 
@@ -279,10 +336,15 @@ Status            : SUCCESS
 
 **Indu Sahu**
 
-- GitHub: https://github.com/imindusahu
+B.Tech Computer Science Engineering
+
+Interested in Java Backend Development, Low Level Design, and Software Architecture.
+
+GitHub:
+https://github.com/imindusahu
 
 ---
 
 ## License
 
-This project is created for learning Low Level Design (LLD), Java, and Design Patterns.
+This project was built as part of my Java Low Level Design learning journey to practice Object-Oriented Design, SOLID Principles, and Design Patterns.
