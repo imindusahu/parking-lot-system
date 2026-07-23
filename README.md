@@ -298,6 +298,9 @@ During this project, I gained practical experience in:
 ```text
 ====== Parking Lot ======
 
+======= Display Board =======
+Available Spots : 4
+
 Car parked at Spot: 3
 Car Ticket ID: T1
 
@@ -312,8 +315,16 @@ Spot Number       : 3
 Amount            : Rs.20.0
 Payment Method    : UPI
 Status            : SUCCESS
+Payment Time      : 2026-07-23T16:52:48.879468
 =======================================
+
+======= Display Board =======
+Available Spots : 5
 ```
+
+## Console Output
+
+![Parking Lot Output](images/sample-output.png)
 
 ---
 
