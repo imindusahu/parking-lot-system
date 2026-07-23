@@ -322,10 +322,39 @@ Payment Time      : 2026-07-23T16:52:48.879468
 Available Spots : 5
 ```
 
+---
+
 ## Console Output
 
 ![Parking Lot Output](images/sample-output.png)
 
+---
+
+# How to Run
+
+Clone the repository
+
+```bash
+git clone https://github.com/imindusahu/parking-lot-system.git
+```
+
+Navigate to the project directory
+
+```bash
+cd parking-lot-system
+```
+
+Compile the project
+
+```bash
+mvn clean compile
+```
+
+Run the application
+
+```bash
+mvn exec:java -Dexec.mainClass="com.indu.parkinglot.Main"
+```
 ---
 
 # Future Improvements
