@@ -67,6 +67,140 @@ src
 
 ---
 
+# UML Class Diagram
+
+```mermaid
+classDiagram
+
+class ParkingLot {
+    - List<ParkingFloor> parkingFloors
+    - PricingStrategy pricingStrategy
+    - SpotSelectionStrategy spotStrategy
+    + parkVehicle()
+    + unparkVehicle()
+}
+
+class ParkingFloor {
+    - List<ParkingSpot> parkingSpots
+}
+
+class ParkingSpot {
+    - int spotId
+    - SpotType spotType
+    - Vehicle parkedVehicle
+}
+
+class Vehicle {
+    <<abstract>>
+    - String vehicleNumber
+    - VehicleType vehicleType
+}
+
+class Car
+class Bike
+class Truck
+
+Vehicle <|-- Car
+Vehicle <|-- Bike
+Vehicle <|-- Truck
+
+ParkingLot --> ParkingFloor
+ParkingFloor --> ParkingSpot
+ParkingSpot --> Vehicle
+
+class Ticket {
+    - String ticketId
+    - LocalDateTime entryTime
+}
+
+ParkingLot --> Ticket
+Ticket --> Vehicle
+
+class PaymentReceipt
+Ticket --> PaymentReceipt
+
+class PaymentStrategy {
+    <<interface>>
+}
+
+class UpiPayment
+class CardPayment
+class CashPayment
+
+PaymentStrategy <|.. UpiPayment
+PaymentStrategy <|.. CardPayment
+PaymentStrategy <|.. CashPayment
+
+class PricingStrategy {
+    <<interface>>
+}
+
+class HourlyPricingStrategy
+
+PricingStrategy <|.. HourlyPricingStrategy
+
+class SpotSelectionStrategy {
+    <<interface>>
+}
+
+class FirstAvailableSpotStrategy
+class NearestSpotStrategy
+
+SpotSelectionStrategy <|.. FirstAvailableSpotStrategy
+SpotSelectionStrategy <|.. NearestSpotStrategy
+
+class ParkingLotObserver {
+    <<interface>>
+}
+
+class DisplayBoard
+
+ParkingLotObserver <|.. DisplayBoard
+ParkingLot --> ParkingLotObserver
+```
+
+---
+
+# System Architecture
+
+```text
+                     +----------------------+
+                     |       Main.java      |
+                     +----------+-----------+
+                                |
+                                v
+                    +-----------------------+
+                    |      ParkingLot       |
+                    +-----------------------+
+                       |      |        |
+           ------------       |        ------------
+          |                   |                   |
+          v                   v                   v
+ Parking Floors       Pricing Strategy     Spot Strategy
+          |                   |                   |
+          v                   v                   v
+ Parking Spots      Hourly Pricing      First Available
+          |                              Nearest Spot
+          |
+          v
+       Vehicle
+          |
+          v
+        Ticket
+          |
+          v
+      Payment Strategy
+          |
+     +----+-----+------+
+     |          |      |
+    UPI       Card   Cash
+          |
+          v
+   Payment Receipt
+```
+
+---
+
 # Payment Module
 
 Supported payment methods:
